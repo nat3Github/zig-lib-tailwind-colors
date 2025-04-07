@@ -16,6 +16,7 @@ pub fn convert_hex(hex: []const u8) !RgbaColor {
 }
 fn hex2rgb(hex: []const u8) ![4]u8 {
     if (hex.len == 0) return error.HexStringIsEmpty;
+    if (hex.len > 7) return error.HexStringTooLong;
     if (hex[0] == '#') return hex2rgb(hex[1..]);
     if (hex.len != 6) return error.HexColorCodeWrongLen;
     var rgba: [4]u8 = undefined;
