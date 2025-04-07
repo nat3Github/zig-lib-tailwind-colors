@@ -14,7 +14,7 @@ pub fn convert_hex(hex: []const u8) !RgbaColor {
     const rgba = try hex2rgb(hex);
     return RgbaColor{ .rgba = rgba };
 }
-inline fn hex2rgb(hex: []const u8) ![4]u8 {
+fn hex2rgb(hex: []const u8) ![4]u8 {
     if (hex.len == 0) return error.HexStringIsEmpty;
     if (hex[0] == '#') return hex2rgb(hex[1..]);
     if (hex.len != 6) return error.HexColorCodeWrongLen;
