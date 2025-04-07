@@ -14,20 +14,29 @@ pub fn convert_hex(hex: []const u8) !RgbaColor {
     const rgba = try hex2rgb(hex);
     return RgbaColor{ .rgba = rgba };
 }
-fn hex2rgb(hex: []const u8) ![4]u8 {
-    if (hex.len == 0) return error.HexStringIsEmpty;
-    if (hex.len > 7) return error.HexStringTooLong;
-    if (hex[0] == '#') return hex2rgb(hex[1..]);
-    if (hex.len != 6) return error.HexColorCodeWrongLen;
+inline fn hex2rgb(hex: []const u8) ![4]u8 {
     var rgba: [4]u8 = undefined;
-    for (rgba[0..3], 0..) |_, i| {
-        const start = i * 2;
-        const slice = hex[start .. start + 2];
-        const value = try std.fmt.parseInt(u8, slice, 16);
-        rgba[i] = value;
-    }
     rgba[3] = 255;
-    return rgba;
+    if (hex.len == 6) {
+        for (rgba[0..3], 0..) |_, i| {
+            const start = i * 2;
+            const slice = hex[start .. start + 2];
+            const value = try std.fmt.parseInt(u8, slice, 16);
+            rgba[i] = value;
+        }
+        return rgba;
+    }
+    if (hex.len == 7 and hex[0] == '#') {
+        const hex1 = hex[1..];
+        for (rgba[0..3], 0..) |_, i| {
+            const start = i * 2;
+            const slice = hex1[start .. start + 2];
+            const value = try std.fmt.parseInt(u8, slice, 16);
+            rgba[i] = value;
+        }
+        return rgba;
+    }
+    return error.FailedToParseHexColor;
 }
 
 /// for easy tuple destructuring
