@@ -206,6 +206,7 @@ pub const purple500 = "#a855f7";
 pub const purple600 = "#9333ea";
 pub const purple700 = "#7e22ce";
 pub const purple800 = "#6b21a8";
+pub const purple900 = "#581c87";
 pub const purple950 = "#3b0764";
 
 pub const red50 = "#fef2f2";
